@@ -1,0 +1,63 @@
+# Build sbcl and ACL2 and basic books.
+
+name: SBCL-ACL2-and-basic-books
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  #push:
+  #  branches: [ master ]
+  #pull_request:
+  #  branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo 'Hello, ' `pwd` ' $GITHUB_WORKSPACE=' "$GITHUB_WORKSPACE"
+
+      # Checks out the acl2 repository under $GITHUB_WORKSPACE/acl2
+      - name: checkout acl2
+        uses: actions/checkout@v2
+        with:
+          repository: 'acl2/acl2'
+          path: 'acl2'
+
+      # Note, if we wanted to actually build sbcl here, we would not need to do
+      # everything that we do with a Docker build, because the github runner
+      # comes with a lot.
+
+      # However, for just loading sbcl, we can use homebrew.
+
+      - name: Install sbcl and ACL2
+        run: |
+          brew install sbcl
+
+          # Informational:
+          which sbcl
+
+          # Now let's build ACL2.
+          cd ${GITHUB_WORKSPACE}
+          cd acl2
+          make update LISP="${which sbcl}"
+          export ACL2=`pwd`/saved_acl2
+          export ACL2_SYSTEM_BOOKS=`pwd`/books
+          export PATH="${ACL2_SYSTEM_BOOKS}"/build:"${PATH}"
+          cd books
+          make -j2 basic
+
+      - name: look at log
+        if: always()  # show log even if previous failed
+        run: |
+          echo Here is the log:
+          cat make.log
