@@ -28,10 +28,12 @@ jobs:
 
       # Checks out the acl2 repository under $GITHUB_WORKSPACE/acl2
       - name: checkout acl2
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'acl2/acl2'
           path: 'acl2'
+          # note: the default commit depth is 1
+          # note: there are`with:` params for sparse checkout, in case of size
 
       # Note, if we wanted to actually build sbcl here, we would not need to do
       # everything that we do with a Docker build, because the github runner
