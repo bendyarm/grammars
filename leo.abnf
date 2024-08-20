@@ -39,7 +39,7 @@ safe-nonascii = %x80-2029 / %x202F-2065 / %x206A-D7FF / %xE000-10FFFF
                 ; and excludes high/low surrogates
                 ; (i.e. %xD800-DFFF )
 
-character = ascii / safe-nonascii
+character = ascii / safe-nonasci
 
 line-terminator = line-feed / carriage-return line-feed
 
