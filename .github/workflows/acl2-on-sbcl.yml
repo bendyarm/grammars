@@ -28,7 +28,7 @@ jobs:
 
       # Checks out the acl2 repository under $GITHUB_WORKSPACE/acl2
       - name: checkout acl2
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: 'acl2/acl2'
           path: 'acl2'
