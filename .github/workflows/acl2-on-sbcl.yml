@@ -1,6 +1,6 @@
 # Build sbcl and ACL2 and basic books.
 
-name: SBCL-ACL2-and-basic-books
+name: SBCL-ACL2-and-check-leo-grammar
 
 # Controls when the workflow will run
 on:
@@ -38,11 +38,14 @@ jobs:
           # note: the default commit depth is 1
           # note: there are`with:` params for sparse checkout, in case of size
 
+      # Note, installing sbcl using brew
+      # is currently sufficient for certifying the leo grammar.
+      # However, more complex computation may require building sbcl with
+      # settings that allow sbcl to use more resources.
+
       # Note, if we wanted to actually build sbcl here, we would not need to do
       # everything that we do with a Docker build, because the github runner
-      # comes with a lot.
-
-      # However, for just loading sbcl, we can use homebrew.
+      # comes with a lot of things preinstalled.
 
       - name: Install sbcl and ACL2
         run: |
@@ -59,13 +62,6 @@ jobs:
           export ACL2_SYSTEM_BOOKS=`pwd`/books
           export PATH="${ACL2_SYSTEM_BOOKS}"/build:"${PATH}"
           cd books
-          make -j2 basic > make.log
-
-      - name: look at log
-        if: always()  # show log even if previous failed
-        run: |
-          echo Here is the log:
-          cat make.log
 
       - name: copy abnf file
         run: cp ${GITHUB_WORKSPACE}/leo.abnf ${ACL2_SYSTEM_BOOKS}/projects/leo/grammar.abnf
@@ -74,5 +70,3 @@ jobs:
         run: |
           cd ${ACL2_SYSTEM_BOOKS}
           cert.pl -j4 projects/leo/grammar
-
-
