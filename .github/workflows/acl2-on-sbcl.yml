@@ -22,10 +22,12 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Runs a single command using the runners shell
+      # Get some info
       - name: Machine Information
-        #run: echo 'Hello, ' `pwd` ' $GITHUB_WORKSPACE=' "$GITHUB_WORKSPACE"
-        run: echo 'uname -a : ' `uname -a`
+        run: |
+          echo 'Hello, ' `pwd` ' $GITHUB_WORKSPACE=' "$GITHUB_WORKSPACE"
+          echo 'which uname: ' `which uname`
+          echo 'uname -a : ' `/usr/bin/uname -a`
 
       # Checks out the acl2 repository under $GITHUB_WORKSPACE/acl2
       - name: checkout acl2
