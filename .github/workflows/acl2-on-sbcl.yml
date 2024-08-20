@@ -51,7 +51,7 @@ jobs:
           # Now let's build ACL2.
           cd ${GITHUB_WORKSPACE}
           cd acl2
-          make update LISP="${which sbcl}"
+          make update LISP=`which sbcl`
           export ACL2=`pwd`/saved_acl2
           export ACL2_SYSTEM_BOOKS=`pwd`/books
           export PATH="${ACL2_SYSTEM_BOOKS}"/build:"${PATH}"
