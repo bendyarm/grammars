@@ -65,7 +65,7 @@ jobs:
       - name: check out grammars repo
         uses: actions/checkout@v4
         with:
-          repository: 'ProvableHQ/grammars'
+          repository: 'bendyarm/grammars'
           path: 'grammars'
 
       - name: grammar files info
