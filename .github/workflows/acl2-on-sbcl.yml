@@ -63,8 +63,14 @@ jobs:
           export PATH="${ACL2_SYSTEM_BOOKS}"/build:"${PATH}"
           cd books
 
+      - name: check out grammars repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'ProvableHQ/grammars'
+          path: 'grammars'
+
       - name: copy abnf file
-        run: cp ${GITHUB_WORKSPACE}/leo.abnf ${ACL2_SYSTEM_BOOKS}/projects/leo/grammar.abnf
+        run: cp ${GITHUB_WORKSPACE}/grammars/leo.abnf ${ACL2_SYSTEM_BOOKS}/projects/leo/grammar.abnf
 
       - name: certify grammar
         run: |
