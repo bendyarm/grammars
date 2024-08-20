@@ -78,4 +78,8 @@ jobs:
           export ACL2_SYSTEM_BOOKS=`pwd`/books
           export PATH="${ACL2_SYSTEM_BOOKS}"/build:"${PATH}"
           cd books
+          echo 'First we print out the grammar'
+          echo '------------------------------'
+          cat projects/leo/grammar.abnf
+          echo '------------------------------'
           cert.pl -j4 projects/leo/grammar
