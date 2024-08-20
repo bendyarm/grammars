@@ -67,6 +67,12 @@ jobs:
           repository: 'ProvableHQ/grammars'
           path: 'grammars'
 
+      - name: checksum grammars
+        run: |
+          cd ${GITHUB_WORKSPACE}
+          sum grammars/leo.abnf
+          sum acl2/books/projects/leo/grammar.abnf
+
       - name: copy abnf file
         run: cp ${GITHUB_WORKSPACE}/grammars/leo.abnf ${GITHUB_WORKSPACE}/acl2/books/projects/leo/grammar.abnf
 
