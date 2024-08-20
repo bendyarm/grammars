@@ -23,8 +23,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo 'Hello, ' `pwd` ' $GITHUB_WORKSPACE=' "$GITHUB_WORKSPACE"
+      - name: Machine Information
+        #run: echo 'Hello, ' `pwd` ' $GITHUB_WORKSPACE=' "$GITHUB_WORKSPACE"
+        run: echo 'uname -a : ' `uname -a`
 
       # Checks out the acl2 repository under $GITHUB_WORKSPACE/acl2
       - name: checkout acl2
@@ -56,10 +57,20 @@ jobs:
           export ACL2_SYSTEM_BOOKS=`pwd`/books
           export PATH="${ACL2_SYSTEM_BOOKS}"/build:"${PATH}"
           cd books
-          make -j2 basic
+          make -j2 basic > make.log
 
       - name: look at log
         if: always()  # show log even if previous failed
         run: |
           echo Here is the log:
           cat make.log
+
+      - name: copy abnf file
+        run: cp ${GITHUB_WORKSPACE}/leo.abnf ${ACL2_SYSTEM_BOOKS}/projects/leo/grammar.abnf
+
+      - name: certify grammar
+        run: |
+          cd ${ACL2_SYSTEM_BOOKS}
+          cert.pl -j4 projects/leo/grammar
+
+
